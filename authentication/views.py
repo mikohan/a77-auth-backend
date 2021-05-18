@@ -10,6 +10,11 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
 
 
+"""
+Need to replace site url for activation email to frontend site
+"""
+
+
 class RegisterView(generics.GenericAPIView):
     serializer_class = RegisterSerializer
 
