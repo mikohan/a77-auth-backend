@@ -2,7 +2,11 @@ from authentication.models import User
 from django.shortcuts import render
 from rest_framework import generics, status, views
 
-from .serializers import EmailVerificationSerializer, RegisterSerializer
+from .serializers import (
+    EmailVerificationSerializer,
+    RegisterSerializer,
+    LoginAPIViewSerializer,
+)
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from .utils import Util
@@ -88,3 +92,11 @@ class VerifyEmailView(views.APIView):
                 {"error": "Invalid token request new one"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+
+
+class LoginAPIView(generics.GenericAPIView):
+    serializer_class = LoginAPIViewSerializer
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
