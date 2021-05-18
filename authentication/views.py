@@ -24,7 +24,6 @@ class RegisterView(generics.GenericAPIView):
 
     def post(self, request):
         user = request.data
-        print(user)
         serializer = self.serializer_class(data=user)
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -66,9 +65,12 @@ class VerifyEmailView(views.APIView):
     def get(self, request):
 
         token = request.GET.get("token")
+        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=["HS256"])
+        print(payload)
         try:
-            payload = jwt.decode(token, settings.SECRET_KEY)
+            payload = jwt.decode(token, settings.SECRET_KEY, algorithms=["HS256"])
             user = User.objects.get(id=payload["user_id"])
+            print(payload, user)
 
             if not user.is_verified:
                 user.is_verified = True
