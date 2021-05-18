@@ -1,8 +1,8 @@
 from authentication.models import User
 from django.shortcuts import render
-from rest_framework import generics, status
+from rest_framework import generics, status, views
 
-from .serializers import RegisterSerializer
+from .serializers import EmailVerificationSerializer, RegisterSerializer
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from .utils import Util
@@ -51,6 +51,8 @@ class RegisterView(generics.GenericAPIView):
 
 
 class VerifyEmailView(generics.CreateAPIView):
+    serializer_class = EmailVerificationSerializer
+
     def get(self, request):
         token = request.GET.get("token")
         try:
