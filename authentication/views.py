@@ -49,5 +49,5 @@ class RegisterView(generics.GenericAPIView):
 
 
 class VerifyEmailView(generics.CreateAPIView):
-    def get(self):
-        pass
+    def get(self, request):
+        token = request.GET.get("token")
