@@ -10,4 +10,5 @@ class ExpenseSerializer(serializers.ModelSerializer):
             "date": {"required": False, "allow_null": True},
             "amount": {"required": False, "allow_null": True},
             "category": {"required": False, "allow_null": True},
+            "description": {"required": False, "allow_null": True},
         }
