@@ -20,4 +20,4 @@ class RegisterSerializer(serializers.ModelSerializer):
         return attrs
 
     def create(self, validated_data):
-        return User.objects.create_user(validated_data)
+        return User.objects.create_user(**validated_data)
