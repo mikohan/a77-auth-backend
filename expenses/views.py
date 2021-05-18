@@ -1,3 +1,4 @@
+from expenses.permissions import IsOwner
 from expenses.models import Expense
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from .serializers import ExpenseSerializer
@@ -21,9 +22,7 @@ class ExpenseListAPIView(ListCreateAPIView):
 
 class ExpenseDetailAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = ExpenseSerializer
-    permission_classes = [
-        IsAuthenticated,
-    ]
+    permission_classes = [IsAuthenticated, IsOwner]
     queryset = Expense.objects.all()
     lookup_field = "id"
 
