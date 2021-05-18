@@ -10,19 +10,19 @@ from django.contrib.auth.models import (
 class UserManager(BaseUserManager):
     def create_user(self, username, email, password=None):
 
-        if username in None:
+        if username is None:
             raise TypeError("Users sould have a useername")
-        if email in None:
+        if email is None:
             raise TypeError("Users sould have a email")
 
-        user = self.model(username=username, email=self.normalize_email)
+        user = self.model(username=username, email=self.normalize_email(email))
         user.set_password(password)
         user.save()
         return user
 
     def create_superuser(self, username, email, password=None):
 
-        if password in None:
+        if password is None:
             raise TypeError("Password should not be none")
 
         user = self.create_user(username, email, password)

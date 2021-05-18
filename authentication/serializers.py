@@ -10,7 +10,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         fields = ["email", "username", "password"]
 
     def validate(self, attrs):
-        email = attrs.get("email", "")
+        # email = attrs.get("email", "")
         username = attrs.get("username", "")
 
         if not username.isalnum():
