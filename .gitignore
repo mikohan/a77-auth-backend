@@ -1,0 +1,6 @@
+.env
+node_modules
+local_settings.py
+manage.py
+venv
+.git
