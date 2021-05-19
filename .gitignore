@@ -4,3 +4,4 @@ local_settings.py
 manage.py
 venv
 .git
+__pycache__
