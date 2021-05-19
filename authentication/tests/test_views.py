@@ -1,4 +1,5 @@
 from .test_setup import TestSetUp
+from authentication.models import User
 
 
 class TestViews(TestSetUp):
@@ -14,16 +15,21 @@ class TestViews(TestSetUp):
 
     def test_user_cannot_login_with_unverified_email(self):
 
-        res = self.client.post(self.register_url, self.user_data, format="json")
+        self.client.post(self.register_url, self.user_data, format="json")
 
         back = self.client.post(self.login_url, self.user_data, format="json")
 
         self.assertEqual(back.status_code, 401)
 
-    def test_user_cannot_login_with_unverified_email(self):
+    def test_user_can_login_after_verification(self):
 
         res = self.client.post(self.register_url, self.user_data, format="json")
 
+        email = res.data["email"]
+        user = User.objects.get(email=email)
+        user.is_verified = True
+
+        user.save()
         back = self.client.post(self.login_url, self.user_data, format="json")
 
-        self.assertEqual(back.status_code, 401)
+        self.assertEqual(back.status_code, 200)
