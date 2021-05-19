@@ -1,6 +1,7 @@
 from authentication.models import User
 from django.shortcuts import render
 from rest_framework import generics, status, views
+from .renderers import UserRenderer
 
 from .serializers import (
     EmailVerificationSerializer,
@@ -25,6 +26,7 @@ Need to replace site url for activation email to frontend site
 
 class RegisterView(generics.GenericAPIView):
     serializer_class = RegisterSerializer
+    renderer_classes = [UserRenderer]
 
     def post(self, request):
         user = request.data
@@ -57,6 +59,7 @@ class RegisterView(generics.GenericAPIView):
 
 class VerifyEmailView(views.APIView):
     serializer_class = EmailVerificationSerializer
+    renderer_classes = [UserRenderer]
 
     token_param_config = openapi.Parameter(
         "token",
@@ -96,6 +99,7 @@ class VerifyEmailView(views.APIView):
 
 class LoginAPIView(generics.GenericAPIView):
     serializer_class = LoginAPIViewSerializer
+    renderer_classes = [UserRenderer]
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
