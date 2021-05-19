@@ -60,7 +60,6 @@ class LoginAPIViewSerializer(serializers.ModelSerializer):
         email = attrs.get("email", "")
         password = attrs.get("password", "")
         user = auth.authenticate(email=email, password=password)
-        print(dir(user))
 
         if not user:
             raise AuthenticationFailed("Inalid credentials try again")
