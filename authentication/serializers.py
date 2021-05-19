@@ -1,8 +1,15 @@
 from rest_framework import serializers
-from authentication.models import User
+from typing import AnyStr, Dict, OrderedDict
+
+from .models import User
 from django.contrib import auth
 from rest_framework.exceptions import AuthenticationFailed
-from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.utils.encoding import (
+    smart_str,
+    force_str,
+    smart_bytes,
+    DjangoUnicodeDecodeError,
+)
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -49,6 +56,7 @@ class LoginAPIViewSerializer(serializers.ModelSerializer):
         email = attrs.get("email", "")
         password = attrs.get("password", "")
         user = auth.authenticate(email=email, password=password)
+        print(dir(user))
 
         if not user:
             raise AuthenticationFailed("Inalid credentials try again")
@@ -66,11 +74,3 @@ class ResetPasswordEmailResetSerializer(serializers.Serializer):
 
     class Meta:
         fields = ["email"]
-
-    def validate(self, attrs):
-        try:
-            email = attrs.get('email', '')
-            if User.objects.filter(email=email).exists():
-
-        except:
-            pass

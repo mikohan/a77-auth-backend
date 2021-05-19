@@ -1,6 +1,6 @@
 from django.db import models
 from rest_framework_simplejwt.tokens import RefreshToken
-?:::w
+from django.db.models import Manager
 
 from django.contrib.auth.models import (
     AbstractBaseUser,
@@ -21,6 +21,8 @@ class UserManager(BaseUserManager):
         user.set_password(password)
         user.save()
         return user
+
+    objects = Manager["User"]()
 
     def create_superuser(self, username, email, password=None):
 
