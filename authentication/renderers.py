@@ -9,8 +9,8 @@ class UserRenderer(renderers.JSONRenderer):
         response = None
 
         if "ErrorDetail" in str(data):
-            response = json.dumps({"errors": data})
+            response = json.dumps({"errors": data}).encode(charset)
         else:
-            response = json.dumps({"data": data})
+            response = json.dumps({"data": data}).encode(charset)
 
         return response
