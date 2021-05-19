@@ -4,12 +4,6 @@ from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
-urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("auth/", include("authentication.urls")),
-    path("expenses/", include("expenses.urls")),
-]
-
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -24,7 +18,11 @@ schema_view = get_schema_view(
     permission_classes=(permissions.AllowAny,),
 )
 
-urlpatterns += [
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    path("auth/", include("authentication.urls")),
+    path("expenses/", include("expenses.urls")),
+    path("income/", include("income.urls")),
     path(
         "",
         schema_view.with_ui("swagger", cache_timeout=0),
