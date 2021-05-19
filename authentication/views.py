@@ -1,4 +1,4 @@
-from django.utils.encoding import smart_bytes
+from django.utils.encoding import smart_bytes, smart_str
 from authentication.models import User
 from django.shortcuts import render
 from rest_framework import generics, status, views
@@ -154,4 +154,28 @@ class PasswordTokenCheckAPIView(generics.GenericAPIView):
     serializer_class = ResetPasswordEmailResetSerializer
 
     def get(self, request, uidb64, token):
-        pass
+
+        try:
+            id = smart_str(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(id=id)
+
+            if not PasswordResetTokenGenerator().check_token(user, token):
+                return Response(
+                    {"error": "Token in not valid, please request a new one"},
+                    status=status.HTTP_401_UNAUTHORIZED,
+                )
+
+            return Response(
+                {
+                    "success": True,
+                    "message": "Credentials Valid",
+                    "uidb64": uidb64,
+                    "token": token,
+                }
+            )
+
+        except Exception as e:
+            return Response(
+                {"error": "Token in not valid, please request a new one"},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
