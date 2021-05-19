@@ -10,6 +10,10 @@ from django.utils.encoding import (
     smart_bytes,
     DjangoUnicodeDecodeError,
 )
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from django.contrib.sites.shortcuts import get_current_site
+from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -86,6 +90,16 @@ class SetNewPasswordSerializer(serializers.Serializer):
 
     def validate(self, attrs):
         try:
-            pass
+            password = attrs.get("password", "")
+            uidb64 = attrs.get("uidb64", "")
+            token = attrs.get("token", "")
+            id = force_str(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(id=id)
+
+            if not PasswordResetTokenGenerator().check_token(user, token):
+                raise AuthenticationFailed("The reset link in invalid", 401)
+            user.set_password(password)
+            user.save()
+            return user
         except Exception as e:
-            pass
+            raise AuthenticationFailed("The reset link in invalid", 401)
