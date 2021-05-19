@@ -9,6 +9,7 @@ from .serializers import (
     RegisterSerializer,
     LoginAPIViewSerializer,
     ResetPasswordEmailResetSerializer,
+    SetNewPasswordSerializer,
 )
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -179,3 +180,10 @@ class PasswordTokenCheckAPIView(generics.GenericAPIView):
                 {"error": "Token in not valid, please request a new one"},
                 status=status.HTTP_401_UNAUTHORIZED,
             )
+
+
+class SetNewPasswordAPIView(generics.GenericAPIView):
+    serializer_class = SetNewPasswordSerializer
+
+    def path(self, request):
+        serializer = self.serializer_class(data=request.data)
