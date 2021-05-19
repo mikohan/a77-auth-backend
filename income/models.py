@@ -11,7 +11,7 @@ class Income(models.Model):
         ("OTHERS", "OTHERS"),
     ]
 
-    category = models.CharField(
+    source = models.CharField(
         choices=SOURSES_OPTIONS, max_length=255, null=True, blank=True
     )
     amount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
