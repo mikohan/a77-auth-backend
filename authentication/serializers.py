@@ -2,6 +2,7 @@ from rest_framework import serializers
 from authentication.models import User
 from django.contrib import auth
 from rest_framework.exceptions import AuthenticationFailed
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -58,3 +59,18 @@ class LoginAPIViewSerializer(serializers.ModelSerializer):
             raise AuthenticationFailed("Account is not activated")
 
         return {"email": user.email, "username": user.username, "tokens": user.tokens}
+
+
+class ResetPasswordEmailResetSerializer(serializers.Serializer):
+    email = serializers.EmailField(min_length=6)
+
+    class Meta:
+        fields = ["email"]
+
+    def validate(self, attrs):
+        try:
+            email = attrs.get('email', '')
+            if User.objects.filter(email=email).exists():
+
+        except:
+            pass
