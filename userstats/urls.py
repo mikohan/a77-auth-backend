@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import ExpensesSummary
+from .views import ExpensesSummary, IncomeSummary
 
 
 urlpatterns = [
@@ -7,5 +7,10 @@ urlpatterns = [
         "expense-catogory-summary",
         ExpensesSummary.as_view(),
         name="expense-category-summary",
-    )
+    ),
+    path(
+        "income-catogory-summary",
+        IncomeSummary.as_view(),
+        name="income-category-summary",
+    ),
 ]
