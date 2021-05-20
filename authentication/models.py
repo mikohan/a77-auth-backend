@@ -9,6 +9,14 @@ from django.contrib.auth.models import (
 )
 
 
+AUTH_PROVIDERS = {
+    "facebook": "facebook",
+    "google": "google",
+    "twitter": "twitter",
+    "email": "email",
+}
+
+
 class UserManager(BaseUserManager):
     def create_user(self, username, email, password=None):
 
@@ -44,6 +52,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    auth_provider = models.CharField(
+        max_length=255, default=AUTH_PROVIDERS.get("email")
+    )
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username"]

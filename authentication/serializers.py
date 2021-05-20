@@ -50,7 +50,11 @@ class LoginAPIViewSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(max_length=255)
     password = serializers.CharField(max_length=255, min_length=6, write_only=True)
     username = serializers.CharField(max_length=255, read_only=True)
-    tokens = serializers.CharField(max_length=555, read_only=True)
+    tokens = serializers.SerializerMethodField()
+
+    def get_tokens(self, obj):
+        user = User.objects.get(email=obj["email"])
+        return {"access": user.tokens()["access"], "refresh": user.tokens()["refresh"]}
 
     class Meta:
         model = User
