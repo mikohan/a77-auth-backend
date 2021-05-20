@@ -1,5 +1,8 @@
 from google.auth.transport import requests
 from google.oauth2 import id_token
+from dataclasses import dataclass
+from typing import Union
+from rest_framework.exceptions import AuthenticationFailed
 
 
 class Google:
@@ -17,4 +20,4 @@ class Google:
                 return idinfo
 
         except:
-            return "The token is either invalid or has expired"
+            raise AuthenticationFailed
