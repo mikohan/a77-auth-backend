@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 from .local_settings import *
 from datetime import timedelta
+import os
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -48,6 +49,7 @@ INSTALLED_APPS = [
     "income",
     "userstats",
     "social_auth",
+    "users",
 ]
 
 MIDDLEWARE = [
@@ -127,6 +129,16 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 STATIC_URL = "/static/"
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, "front/dist"),
+]
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+MEDIA_URL = "/media/"
+STATIC_ROOT = os.path.join(BASE_DIR, "static_root")
+USER_IMAGES = "images/users"
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 

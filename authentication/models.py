@@ -1,6 +1,8 @@
 from django.db import models
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.db.models import Manager
+from django_resized import ResizedImageField
+from django.conf import settings
 
 from django.contrib.auth.models import (
     AbstractBaseUser,
@@ -55,6 +57,15 @@ class User(AbstractBaseUser, PermissionsMixin):
     auth_provider = models.CharField(
         max_length=255, default=AUTH_PROVIDERS.get("email")
     )
+    image = ResizedImageField(
+        size=[100, 100],
+        quality=75,
+        crop=["middle", "center"],
+        upload_to=settings.USER_IMAGES,
+        blank=True,
+        null=True,
+    )
+    phone = models.CharField(max_length=50, blank=True, null=True)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username"]
