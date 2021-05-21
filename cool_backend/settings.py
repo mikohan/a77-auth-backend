@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "userstats",
     "social_auth",
     "users",
+    "currency",
 ]
 
 MIDDLEWARE = [
