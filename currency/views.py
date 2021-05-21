@@ -3,6 +3,7 @@ from .models import UsdRate
 from .serializers import CurrencySerializer
 from .cron import run_api
 import json
+from rest_framework.exceptions import APIException
 
 from django_cron import CronJobBase, Schedule
 
@@ -13,14 +14,12 @@ class CurrencyAPIView(ListAPIView):
     paginator = None
 
     def get(self, request, *args, **kwargs):
-        # data = run_api()
-        with open(
-            "/home/manhee/Projects/Sandbox/DjangoProjects/auth_system2/currency/data.json",
-            "r",
-        ) as file:
-            j = json.load(file)
-            obj = UsdRate(rate=str(j["rates"]["RUB"]))
+        try:
+            data = run_api()
+
+            obj = UsdRate(rate=str(data["rates"]["RUB"]))
             obj.save()
-            print(j["rates"]["RUB"])
+        except:
+            raise APIException("Rate already inserted today")
 
         return self.list(request, *args, **kwargs)
