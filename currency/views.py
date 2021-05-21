@@ -20,6 +20,7 @@ class CurrencyAPIView(ListAPIView):
         ) as file:
             j = json.load(file)
             obj = UsdRate(rate=str(j["rates"]["RUB"]))
+            obj.save()
             print(j["rates"]["RUB"])
 
         return self.list(request, *args, **kwargs)
