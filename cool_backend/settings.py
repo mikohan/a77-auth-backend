@@ -65,7 +65,9 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-CRONJOBS = [("10 07 * * *", "currency.cron.run_api")]
+CRONJOBS = [
+    ("10 07 * * *", "currency.cron.run_api"),
+]
 ROOT_URLCONF = "cool_backend.urls"
 
 TEMPLATES = [
