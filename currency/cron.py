@@ -1,8 +1,10 @@
+import requests
+from django.conf import settings
+
+url = settings.CURRENCY_LATEST_URL
+
+
 def run_api():
-    print("Run api executed")
-    f = open(
-        "/home/manhee/Projects/Sandbox/DjangoProjects/auth_system2/currency/crontabTest.txt",
-        "w",
-    )
-    f.write("Cron JOb started \n")
-    f.close
+
+    r = requests.get(url)
+    return r.json()

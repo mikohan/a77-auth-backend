@@ -1,21 +1,25 @@
 from rest_framework.generics import ListAPIView
 from .models import UsdRate
 from .serializers import CurrencySerializer
+from .cron import run_api
+import json
 
 from django_cron import CronJobBase, Schedule
-
-
-class MyCronJob(CronJobBase):
-    RUN_EVERY_MINS = 120  # every 2 hours
-
-    schedule = Schedule(run_every_mins=RUN_EVERY_MINS)
-    code = "currency.my_cron_job"  # a unique code
-
-    def do(self):
-        print("Cron runned")
 
 
 class CurrencyAPIView(ListAPIView):
     queryset = UsdRate.objects.all()
     serializer_class = CurrencySerializer
     paginator = None
+
+    def get(self, request, *args, **kwargs):
+        # data = run_api()
+        with open(
+            "/home/manhee/Projects/Sandbox/DjangoProjects/auth_system2/currency/data.json",
+            "r",
+        ) as file:
+            j = json.load(file)
+            obj = UsdRate(rate=str(j["rates"]["RUB"]))
+            print(j["rates"]["RUB"])
+
+        return self.list(request, *args, **kwargs)
