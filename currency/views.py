@@ -1,9 +1,9 @@
-from rest_framework.generics import GenericAPIView
+from rest_framework.generics import ListAPIView
 from .models import UsdRate
 from .serializers import CurrencySerializer
 
 
-class CurrencyAPIView(GenericAPIView):
+class CurrencyAPIView(ListAPIView):
     queryset = UsdRate.objects.all()
-    serializr_class = CurrencySerializer
+    serializer_class = CurrencySerializer
     paginator = None
