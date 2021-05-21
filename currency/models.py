@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 
 
 class UsdRate(models.Model):
@@ -15,7 +16,14 @@ class UsdRate(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=50)
-    price = models.DecimalField(max_digits=6, decimal_places=2)
+    _price = models.DecimalField(max_digits=6, decimal_places=2)
 
     def __str__(self):
         return str(self.name)
+
+    @property
+    def price(self):
+        today = datetime.now().date()
+        rate = UsdRate.objects.get(date=today)
+        print(float(rate.rate))
+        return round(float(self._price) * float(rate.rate))
