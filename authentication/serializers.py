@@ -58,7 +58,7 @@ class LoginAPIViewSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ["email", "password", "username", "tokens"]
+        fields = ["email", "password", "username", "tokens", "image"]
 
     def validate(self, attrs):
         email = attrs.get("email", "")
@@ -72,8 +72,13 @@ class LoginAPIViewSerializer(serializers.ModelSerializer):
             raise AuthenticationFailed("Account disabled contact admin")
         if not user.is_verified:
             raise AuthenticationFailed("Account is not activated")
+        print(user.image.url)
 
-        return {"email": user.email, "username": user.username, "tokens": user.tokens}
+        return {
+            "email": user.email,
+            "username": user.username,
+            "tokens": user.tokens,
+        }
 
 
 class ResetPasswordEmailResetSerializer(serializers.Serializer):
