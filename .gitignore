@@ -5,3 +5,6 @@ manage.py
 venv
 .git
 __pycache__
+*.pyc
+*~
+*.swp
